@@ -1,0 +1,743 @@
+# Unity 공부 총정리
+
+## 1. 프로젝트 폴더 구조
+
+| 폴더              | 뜻                                                                            |
+| --------------- | ---------------------------------------------------------------------------- |
+| Assets          | 내가 직접 쓰는 게임 재료 창고. Scene, Script, 이미지, 사운드, Material, Prefab 등을 넣는 가장 중요한 폴더 |
+| Packages        | Unity에 설치된 기능 목록. Input System, TextMeshPro, Recorder 등이 여기에 포함됨             |
+| ProjectSettings | 게임 전체 설정 파일. 화면, 입력, Tag, Layer, 빌드 관련 설정                                    |
+| Library         | Unity가 에셋을 불러오고 변환하며 만든 캐시 폴더. 직접 수정하지 않음                                    |
+| Temp            | Unity가 작업 중 임시로 만드는 폴더                                                       |
+| Logs            | Unity 작업 기록과 오류 로그                                                           |
+| UserSettings    | 현재 컴퓨터·사용자에게만 적용되는 Unity Editor 설정. 보통 직접 만질 일 없음                            |
+
+```text
+Assets = 내가 만드는 것
+Packages = Unity에 추가한 기능
+ProjectSettings = 게임 전체 옵션
+Library / Temp / Logs = Unity가 자동 생성
+```
+
+---
+
+# 2. Unity Editor 창
+
+| 창          | 역할                                  |
+| ---------- | ----------------------------------- |
+| Scene View | 게임 공간을 편집하는 화면                      |
+| Game View  | 실제 플레이 화면을 미리 보는 창                  |
+| Hierarchy  | 현재 Scene 안의 GameObject 목록           |
+| Inspector  | 선택한 GameObject의 설정과 Component를 보는 창 |
+| Project    | Assets 폴더 안의 파일을 보는 창               |
+| Console    | Debug Log, Warning, Error를 보는 창     |
+
+## Console 버튼
+
+| 버튼                 | 뜻                               |
+| ------------------ | ------------------------------- |
+| Clear              | Console 메시지를 전부 지움              |
+| Clear On Play      | Play를 시작할 때 기존 Console 메시지를 지움  |
+| Clear On Build     | Build를 시작할 때 Console 메시지를 지움    |
+| Clear On Recompile | 스크립트가 다시 컴파일될 때 Console 메시지를 지움 |
+| Collapse           | 같은 메시지를 하나로 묶어서 보여 줌            |
+| Error Pause        | Play 중 Error가 나면 게임을 자동으로 멈춤    |
+
+```text
+기능이 이상하면 제일 먼저 Console의 빨간 Error부터 확인
+```
+
+---
+
+# 3. Scene 뷰 조작과 툴
+
+| 단축키      | 도구             | 역할                        |
+| -------- | -------------- | ------------------------- |
+| Q        | Hand Tool      | Scene 화면 이동               |
+| W        | Move Tool      | 오브젝트 이동                   |
+| E        | Rotate Tool    | 오브젝트 회전                   |
+| R        | Scale Tool     | 오브젝트 크기 변경                |
+| T        | Rect Tool      | 2D Sprite의 위치·가로·세로 크기 조절 |
+| Y        | Transform Tool | 이동·회전·크기 조절을 한 도구에서 처리    |
+| F        | Frame Selected | 선택한 오브젝트를 화면 중앙에 맞춤       |
+| Ctrl + D | Duplicate      | 오브젝트 복제                   |
+| Ctrl + S | Save           | Scene 저장                  |
+
+## Play 관련 버튼
+
+| 버튼    | 뜻                    |
+| ----- | -------------------- |
+| Play  | 게임 실행                |
+| Pause | 실행 중인 게임 일시정지        |
+| Step  | Pause 상태에서 한 프레임씩 진행 |
+
+```text
+Play Mode에서 바꾼 Scene 값은 Stop하면 대부분 원래대로 돌아감
+```
+
+---
+
+# 4. 좌표축과 Gizmo
+
+| 색  | 축  | 방향       |
+| -- | -- | -------- |
+| 빨강 | X축 | 왼쪽 / 오른쪽 |
+| 초록 | Y축 | 아래 / 위   |
+| 파랑 | Z축 | 앞 / 뒤    |
+
+## Global / Local
+
+| 설정     | 기준                  |
+| ------ | ------------------- |
+| Global | 월드 전체의 X, Y, Z축 기준  |
+| Local  | 선택한 오브젝트가 회전한 방향 기준 |
+
+## Gizmo
+
+```text
+Gizmo
+= Scene 뷰에서 보이는 아이콘, 축, Collider 외곽선, 카메라 표시, 조명 표시 같은 편집 보조 표시
+```
+
+예시:
+
+```text
+빨강·초록·파랑 축 화살표
+카메라 아이콘
+Light 아이콘
+Collider 테두리
+Move / Rotate 핸들
+```
+
+## Edit Collider
+
+```text
+Collider를 선택
+→ Inspector에서 Edit Collider
+→ Scene 뷰에서 충돌 범위 크기와 위치 조절
+```
+
+보이는 모델 크기와 Collider 크기는 따로일 수 있다.
+
+---
+
+# 5. GameObject와 Component 패턴
+
+## GameObject
+
+```text
+GameObject
+= Scene 안에 존재하는 모든 물체의 기본 단위
+```
+
+예시:
+
+```text
+Player
+Wall
+Camera
+Light
+Coin
+Door
+```
+
+## Component
+
+```text
+Component
+= GameObject에 기능을 붙이는 부품
+```
+
+예시:
+
+```text
+Transform
+Mesh Renderer
+Box Collider
+Rigidbody
+Audio Source
+Script
+```
+
+## Component Pattern
+
+```text
+미리 만들어진 기능 부품을 조립해서 GameObject를 만드는 방식
+```
+
+장점:
+
+```text
+기능 재사용이 쉬움
+필요한 기능만 붙일 수 있음
+기능을 쉽게 추가·삭제 가능
+오브젝트끼리 의존도가 낮음
+```
+
+예시:
+
+```text
+상자 GameObject
++ Mesh Renderer
++ Box Collider
++ Rigidbody
+= 보이고, 부딪히고, 떨어지는 상자
+```
+
+---
+
+# 6. 상속과 클래스
+
+## Class
+
+```text
+Class
+= 특정 대상과 관련된 데이터와 기능을 묶는 틀
+```
+
+예시:
+
+```text
+PlayerController
+Collectible
+DoorOpener
+DayNightCycle
+```
+
+## Object
+
+```text
+Object
+= Class를 실제로 사용해서 만들어진 대상
+```
+
+예시:
+
+```text
+PlayerController Class
+→ Player GameObject에 붙은 PlayerController Component
+```
+
+## Inheritance
+
+```text
+Inheritance
+= 기존 Class의 기능을 물려받아 새 Class를 만드는 방식
+```
+
+C#에서는 콜론 `:`으로 상속을 표시한다.
+
+```csharp
+public class PlayerController : MonoBehaviour
+```
+
+뜻:
+
+```text
+PlayerController는 MonoBehaviour의 기능을 물려받는다.
+```
+
+## 상속의 한계
+
+상속 구조가 너무 복잡해지면:
+
+```text
+클래스끼리 너무 강하게 묶임
+새 기능을 추가하기 어려움
+코드 재사용이 오히려 불편해질 수 있음
+기획자가 새 오브젝트를 만들 때 프로그래머 의존도가 커질 수 있음
+```
+
+그래서 Unity는 보통:
+
+```text
+상속만으로 모든 기능을 만들기보다
+Component를 조립하는 방식을 많이 사용한다.
+```
+
+---
+
+# 7. 기본 3D Component
+
+| Component       | 역할                    |
+| --------------- | --------------------- |
+| Transform       | 위치, 회전, 크기            |
+| Mesh Filter     | 오브젝트의 3D 모양 데이터       |
+| Mesh Renderer   | Mesh를 화면에 보이게 그림      |
+| Material        | 색, 텍스처, 광택 등 외형       |
+| Box Collider    | 박스 모양 충돌 범위           |
+| Sphere Collider | 구 모양 충돌 범위            |
+| Mesh Collider   | 실제 Mesh 모양에 가까운 충돌 범위 |
+| Rigidbody       | 중력, 힘, 물리 이동, 충돌 반응   |
+| Audio Source    | 소리가 나는 위치             |
+| Animator        | 애니메이션 재생·관리           |
+| Camera          | 플레이어가 보는 화면           |
+| Light           | 씬을 비추는 조명             |
+
+## Mesh Filter와 Mesh Renderer
+
+```text
+Mesh Filter = 모양 정보
+Mesh Renderer = 그 모양을 화면에 그림
+```
+
+## Material과 Physics Material
+
+| 종류               | 역할                 |
+| ---------------- | ------------------ |
+| Material         | 보이는 외형. 색, 텍스처, 광택 |
+| Physics Material | 물리 성질. 마찰, 튕김      |
+
+---
+
+# 8. Collider와 Rigidbody
+
+## Collider
+
+```text
+Collider
+= 오브젝트가 부딪히는 범위
+```
+
+## Rigidbody
+
+```text
+Rigidbody
+= 중력, 힘, 충돌 반응 같은 물리 운동 담당
+```
+
+기본 구조:
+
+```text
+움직이는 물체
+= Rigidbody + Collider
+
+고정 벽
+= Collider만 있어도 됨
+```
+
+## Is Trigger
+
+```text
+Is Trigger
+= 물리적으로 막지는 않지만, 닿았는지는 감지하는 Collider 설정
+```
+
+예시:
+
+```text
+Coin
+= Collider + Is Trigger
+
+Player가 Coin에 닿음
+→ OnTriggerEnter 실행
+→ Coin 수집
+```
+
+3D Trigger 조건:
+
+```text
+Collider가 있어야 함
+Is Trigger가 켜져 있어야 함
+두 오브젝트 중 적어도 하나에는 Rigidbody가 있어야 함
+```
+
+---
+
+# 9. 2D와 3D 차이
+
+| 3D                 | 2D                  |
+| ------------------ | ------------------- |
+| Rigidbody          | Rigidbody 2D        |
+| Collider           | Collider 2D         |
+| Box Collider       | Box Collider 2D     |
+| Sphere Collider    | Circle Collider 2D  |
+| OnTriggerEnter     | OnTriggerEnter2D    |
+| Collider           | Collider2D          |
+| X, Y, Z축           | 보통 X, Y축 중심         |
+| Perspective Camera | Orthographic Camera |
+| 3D Model / Mesh    | Sprite              |
+
+## 2D 물리값
+
+| 항목              | 뜻                   |
+| --------------- | ------------------- |
+| Gravity Scale   | 중력 세기. 탑다운 게임은 보통 0 |
+| Mass            | 높을수록 무거워서 밀기 어려움    |
+| Linear Damping  | 직선 이동이 빨리 멈추는 정도    |
+| Angular Damping | 회전이 빨리 멈추는 정도       |
+
+```text
+Mass 높음 = 무거움
+Linear Damping 높음 = 덜 미끄러짐
+Angular Damping 높음 = 덜 빙글빙글 회전
+```
+
+---
+
+# 10. Sprite와 2D 화면 표시
+
+## Sprite
+
+```text
+Sprite
+= 2D 게임에서 캐릭터, 아이템, 배경으로 쓰는 평면 이미지
+```
+
+## Sprite Renderer
+
+```text
+Sprite Renderer
+= Sprite를 화면에 보이게 하는 Component
+```
+
+## Order in Layer
+
+```text
+Order in Layer
+= 2D Sprite가 화면에서 앞뒤로 보이는 순서
+```
+
+```text
+숫자가 클수록 더 앞에 보임
+```
+
+예시:
+
+```text
+Floor = 0
+Rug = 5
+Furniture = 10
+Player = 10
+```
+
+## Rect Tool
+
+```text
+Rect Tool
+= 2D Sprite를 이동하고 가로·세로로 늘리거나 줄이는 도구
+```
+
+## 9-Sliced Sprite
+
+```text
+이미지를 9개 구역으로 나눠서
+크기를 늘려도 테두리는 덜 찌그러지고
+가운데 무늬는 반복되게 하는 방식
+```
+
+---
+
+# 11. Script와 C# 기초
+
+## Script
+
+```text
+Script
+= 게임 기능을 만드는 C# 코드 파일
+```
+
+## MonoBehaviour
+
+```text
+MonoBehaviour
+= Unity GameObject에 붙어서 Unity 기능을 사용할 수 있게 해 주는 기본 Class
+```
+
+`MonoBehaviour`를 상속하면 사용할 수 있는 대표 기능:
+
+```text
+Start()
+Update()
+FixedUpdate()
+OnTriggerEnter()
+GetComponent()
+transform
+gameObject
+```
+
+모든 C# Class가 MonoBehaviour를 상속해야 하는 것은 아니다.
+
+```text
+GameObject에 붙어 동작할 Script라면 MonoBehaviour를 상속하는 경우가 많다.
+```
+
+## Variable
+
+```text
+Variable
+= 값을 저장하는 이름 붙은 공간
+```
+
+| 자료형        | 뜻             | 예시                   |
+| ---------- | ------------- | -------------------- |
+| int        | 정수            | `1`, `10`            |
+| float      | 소수점 숫자        | `0.5f`, `5.0f`       |
+| bool       | 참 또는 거짓       | `true`, `false`      |
+| string     | 글자            | `"Player"`           |
+| GameObject | Unity 오브젝트 참조 | Player, Coin, Prefab |
+| Vector2    | X, Y 값        | 2D 위치·방향             |
+| Vector3    | X, Y, Z 값     | 3D 위치·방향             |
+
+## bool
+
+```text
+bool
+= true 또는 false만 저장하는 자료형
+```
+
+예시:
+
+```text
+isGrounded = true
+doorIsOpen = false
+```
+
+## public / private
+
+| 키워드     | 뜻                      |
+| ------- | ---------------------- |
+| public  | Inspector에서 값 확인·수정 가능 |
+| private | 해당 Script 안에서만 사용      |
+
+## Method
+
+```text
+Method
+= 특정 기능을 실행하는 코드 묶음
+```
+
+예시:
+
+```text
+Start()
+Update()
+OnTriggerEnter()
+```
+
+## 자주 쓰는 Unity Method
+
+| 코드                   | 역할                          |
+| -------------------- | --------------------------- |
+| `Start()`            | 게임 시작 시 한 번 실행              |
+| `Update()`           | 매 프레임 반복                    |
+| `FixedUpdate()`      | 일정한 간격으로 물리 처리              |
+| `OnTriggerEnter()`   | 3D Trigger에 들어오면 실행         |
+| `OnTriggerEnter2D()` | 2D Trigger에 들어오면 실행         |
+| `Destroy()`          | 현재 GameObject 삭제            |
+| `Instantiate()`      | Prefab을 복제해 Scene에 생성       |
+| `GetComponent()`     | 같은 GameObject의 Component 찾기 |
+| `CompareTag()`       | Tag가 맞는지 확인                 |
+| `transform.Rotate()` | 오브젝트 회전                     |
+
+---
+
+# 12. Tag
+
+```text
+Tag
+= GameObject를 구분하는 이름표
+```
+
+예시:
+
+```text
+Player
+Enemy
+Collectible
+```
+
+```csharp
+if (other.CompareTag("Player"))
+```
+
+뜻:
+
+```text
+Trigger에 들어온 대상의 Tag가 Player일 때만 실행
+```
+
+---
+
+# 13. Prefab
+
+```text
+Prefab
+= 여러 번 꺼내 쓸 수 있는 GameObject 원본 파일
+```
+
+예시:
+
+```text
+Coin Prefab
+Furniture Prefab
+Room Prefab
+VFX Prefab
+```
+
+장점:
+
+```text
+같은 오브젝트를 쉽게 복제 가능
+원본 수정 내용을 여러 인스턴스에 적용 가능
+반복 배치가 편함
+```
+
+---
+
+# 14. 애니메이션
+
+| 용어                  | 뜻                                |
+| ------------------- | -------------------------------- |
+| Animation Clip      | 움직임·회전·Sprite 변화 같은 애니메이션 데이터 파일 |
+| Animator            | 애니메이션을 재생하고 전환하는 Component       |
+| Animator Controller | 어떤 애니메이션을 언제 재생할지 정하는 상태 구조      |
+| Trigger Parameter   | 특정 애니메이션을 실행하라는 일회성 신호           |
+| Sprite Sheet        | 여러 프레임 그림이 한 장에 모인 이미지           |
+| Slice               | Sprite Sheet를 프레임별로 자르기          |
+| Frame               | 애니메이션을 이루는 그림 한 장                |
+
+예시:
+
+```text
+DoorOpener
+→ Player가 Trigger에 들어감
+→ Animator Trigger "Door_Open" 실행
+→ Door_Open 애니메이션 재생
+```
+
+---
+
+# 15. Audio
+
+| 용어             | 뜻                           |
+| -------------- | --------------------------- |
+| Audio Clip     | 실제 소리 파일                    |
+| Audio Source   | 소리가 나는 위치                   |
+| Audio Listener | 플레이어의 귀. 보통 Main Camera에 있음 |
+| 2D Sound       | 위치와 관계없이 같은 크기로 들림          |
+| 3D Sound       | 거리와 방향에 따라 크기가 달라짐          |
+| Spatial Blend  | 2D와 3D 소리 비율 설정             |
+
+```text
+BGM = 2D Sound
+냉장고, 새, 물 끓는 소리 = 3D Sound
+```
+
+---
+
+# 16. UI
+
+| 요소          | 역할                 |
+| ----------- | ------------------ |
+| Canvas      | 모든 UI가 들어가는 화면용 부모 |
+| TextMeshPro | 화면 글자 표시           |
+| Button      | 클릭 가능한 UI          |
+| EventSystem | 버튼 클릭 같은 UI 입력 처리  |
+| Panel       | UI를 묶거나 배경을 만드는 요소 |
+
+예시:
+
+```text
+Remaining Collectibles UI
+= 남은 아이템 수 표시
+```
+
+---
+
+# 17. Broadcasting
+
+```text
+Broadcasting
+= 하나의 신호나 메시지를 여러 대상에게 전달하는 방식
+```
+
+게임에서는 보통:
+
+```text
+어떤 사건 발생
+→ 여러 오브젝트가 반응
+```
+
+예시:
+
+```text
+게임 시작 신호
+→ 문 닫기
+→ 음악 시작
+→ UI 표시
+```
+
+Unity에는 예전 방식인 `BroadcastMessage`도 있지만, 요즘은 보통 Event, UnityEvent, C# event 같은 구조를 더 자주 사용한다.
+
+---
+
+# 18. Build와 WebGL
+
+| 용어              | 뜻                              |
+| --------------- | ------------------------------ |
+| Build           | Unity 프로젝트를 실행 가능한 형태로 포장하는 과정 |
+| Build Profiles  | 플랫폼과 빌드 설정을 관리하는 창             |
+| Scene List      | 빌드에 포함할 Scene 목록               |
+| Build Index     | Scene List에서의 번호               |
+| Player Settings | 게임 이름, 아이콘, 해상도 같은 실행 설정       |
+| WebGL           | 웹 브라우저에서 실행되는 Unity 게임         |
+
+중요:
+
+```text
+Build Index 0 = Main Menu
+Build Index 1부터 = 메뉴 버튼으로 이동할 Scene
+```
+
+WebGL 흐름:
+
+```text
+Build Profiles
+→ Web 선택
+→ Switch Platform
+→ Build
+→ 결과 폴더 zip 압축
+→ Unity Play 업로드
+```
+
+---
+
+# 19. 자주 했던 실수와 해결법
+
+| 문제                    | 확인할 것                                                |
+| --------------------- | ---------------------------------------------------- |
+| Collectible이 안 먹힘     | Player Tag가 `Player`인지                               |
+| Trigger가 안 됨          | Collider, Is Trigger, Rigidbody 조건                   |
+| VFX가 안 나옴             | Inspector 변수에 VFX Prefab이 연결됐는지                      |
+| Script가 안 붙음          | 파일명과 Class 이름이 같은지                                   |
+| 문이 안 열림               | Door 부모에 Animator, DoorOpener, Trigger Collider가 있는지 |
+| 2D Player가 아래로 떨어짐    | Rigidbody 2D의 Gravity Scale이 0인지                     |
+| 가구가 너무 미끄러움           | Linear Damping 높이기                                   |
+| 가구가 너무 돌아감            | Angular Damping 높이기                                  |
+| Sprite가 가구 위에 이상하게 보임 | Order in Layer 확인                                    |
+| 메뉴 버튼이 안 됨            | Build Profiles의 Scene List와 Build Index 확인           |
+| 모든 기능이 이상함            | Console의 빨간 Error부터 확인                               |
+| Play 중 수정한 게 사라짐      | Stop하면 Play Mode 변경값이 되돌아가는지 확인                      |
+
+---
+
+# 20. 진짜 핵심 암기 15줄
+
+```text
+1. Assets = 내가 만드는 게임 재료 창고
+2. GameObject = 씬 안의 물체
+3. Component = 물체에 붙이는 기능 부품
+4. Transform = 위치, 회전, 크기
+5. Prefab = 반복 사용 가능한 오브젝트 원본
+6. Collider = 충돌 범위
+7. Rigidbody = 물리 움직임
+8. Is Trigger = 통과는 가능하지만 닿음은 감지
+9. Script = 기능을 만드는 C# 파일
+10. MonoBehaviour = Unity GameObject에 붙는 Script의 기본 Class
+11. Update = 매 프레임, FixedUpdate = 물리 처리
+12. Tag = GameObject 구분용 이름표
+13. 2D는 Rigidbody2D, Collider2D, OnTriggerEnter2D 사용
+14. Order in Layer 숫자가 클수록 Sprite가 앞에 보임
+15. 오류가 나면 Console 빨간 Error부터 확인
+```
